@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Build processing node {{name}}
+      register: build_result
+      os_server:
+        state: present
+        auto_ip: no
+        name: processing-{{name}}
+        flavor: io.700GB
+        image: Ubuntu-16.04
+        key_name: comhis
+        security_groups: default
+        network: project_2000230
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Add processing node to inventory
+      add_host:
+        name: processing-{{name}}
+        groups:
+          - processing
+        ansible_ssh_host: "{{ build_result.server.addresses['project_2000230'][0].addr }}"
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Generate an inventory file
+      template: src=templates/node_inventory.j2 dest=../inventory/nodes
+
+- hosts: processing-{{name}}
+  gather_facts: no
+  tasks:
+    - name: Wait for the processing node to become accessible
+      wait_for:
+        host: "{{ ansible_ssh_host }}"
+        port: 22
+        state: started
+      delegate_to: frontend
+
+- include: configure-processing.yml

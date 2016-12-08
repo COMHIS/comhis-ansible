@@ -1,0 +1,7 @@
+---
+- hosts: processing
+  become: yes
+  roles:
+    - { role: data-from-volume, volume_name: ECCO1, zpool: ecco1pool, dataset: ecco1, dzpath: pool/cdata/ecco1 }
+    - { role: data-from-volume, volume_name: ECCO2, zpool: ecco2pool, dataset: ecco2, dzpath: pool/cdata/ecco2 }
+  # - { role: data-from-ida, ida_file_path: ecco2.tar.xz, path: /pool/cdata }

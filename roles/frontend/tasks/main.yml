@@ -1,0 +1,11 @@
+---
+- name: Install Varnish
+  apt: name=varnish state=latest
+- name: Ensure /etc/systemd/system/varnish.service.d exists
+  file: path=/etc/systemd/system/varnish.service.d state=directory
+- name: Configure Varnish startup script
+  copy: src=varnish-init.conf dest=/etc/systemd/system/varnish.service.d/customexec.conf
+- name: Add Varnish configuration
+  template: src=varnish.vcl dest=/etc/varnish/default.vcl
+- name: Reload varnish
+  systemd: daemon_reload=yes name=varnish state=restarted

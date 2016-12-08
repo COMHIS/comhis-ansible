@@ -1,0 +1,7 @@
+Host *
+  StrictHostKeyChecking no
+  ControlMaster auto
+  ControlPath ~/.ssh/%r@%h:%p
+  ControlPersist 10m
+  IdentityFile credentials/comhis.pem
+  User cloud-user

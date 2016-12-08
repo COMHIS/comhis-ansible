@@ -1,0 +1,6 @@
+---
+- hosts: frontend
+  become: yes
+  roles: 
+   - common
+   - frontend

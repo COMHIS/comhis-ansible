@@ -1,0 +1,7 @@
+{
+    "irods_home": "/ida/hy/2000230",
+    "irods_port": 1247,
+    "irods_host": "ida.csc.fi",
+    "irods_zone_name": "ida",
+    "irods_authentication_scheme": "native"
+}

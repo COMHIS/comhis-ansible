@@ -1,0 +1,40 @@
+---
+- name: Install java
+  apt: name=default-jdk state=latest
+
+- name: Install zfs
+  apt: name=zfsutils-linux state=latest
+
+- name: Create zpool
+  command: zpool create -f pool /dev/vdb creates=/pool
+
+- name: Create zfs dataset on additional disk
+  zfs: name=pool/data state=present
+
+- name: Create compressed zfs dataset on additional disk
+  zfs: name=pool/cdata compression=lz4 state=present
+
+- name: Give ownership of /pool/data dataset to cloud-user
+  file: path=/pool/data owner=cloud-user
+
+- name: Give ownership of /pool/cdata dataset to cloud-user
+  file: path=/pool/cdata owner=cloud-user
+
+- name: Install pixz
+  apt: name=pixz state=latest
+
+- name: Add iRODS apt repository
+  apt_repository:
+    repo: 'deb https://packages.irods.org/apt/ trusty main'
+    state: present
+
+- name: Install iRODS commands
+  apt: name=irods-icommands state=latest allow_unauthenticated=yes
+
+- name: Make sure iRODS configuration directory exists
+  become: no
+  file: path=/home/cloud-user/.irods state=directory
+
+- name: Install iRODS configuration
+  become: no
+  copy: src=irods_environment.json dest=/home/cloud-user/.irods/irods_environment.json

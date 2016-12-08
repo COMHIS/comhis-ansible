@@ -1,0 +1,10 @@
+---
+ - name: Authenticate to iRODS
+   shell: echo {{ida_password}} | /usr/bin/iinit
+   environment:
+    IRODS_USER_NAME: "{{ida_username}}"
+
+ - name: Fetch file from iRODS
+   shell: /usr/bin/iget {{ida_file_path}} - | pixz -d | tar xa -C /srv
+   environment:
+    IRODS_USER_NAME: "{{ida_username}}"

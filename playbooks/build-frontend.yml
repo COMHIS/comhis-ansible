@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Build OpenStack environment and frontend using Heat
+      register: frontend_heat_stack
+      os_stack:
+        name: frontend
+        state: present
+        template: "files/heat-frontend.yml"
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Add frontend node to inventory
+      add_host:
+        name: frontend
+        groups:
+          - frontend
+        ansible_ssh_host: "{{ frontend_heat_stack.stack.outputs[0].output_value.addresses['project_2000230'][1].addr }}"
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Generate inventory file
+      template: src=templates/node_inventory.j2 dest=../inventory/nodes
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Generate SSH config
+      template: src=templates/ssh.conf.j2 dest=../ssh.conf
+
+
+- hosts: frontend
+  gather_facts: no
+  tasks:
+    - name: Wait for the frontend node to become accessible
+      wait_for:
+        host: "{{ ansible_ssh_host }}"
+        port: 22
+        state: started
+      delegate_to: localhost
+
+- hosts: frontend
+  gather_facts: no
+  tasks:
+    - name: Add SSH private key to node
+      copy: src=../../credentials/comhis.pem dest=/home/cloud-user/.ssh/id_rsa mode=0600
+    - name: Add SSH public key to node
+      copy: src=../../credentials/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
+
+- include: configure-frontend.yml
