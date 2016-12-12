@@ -1,8 +1,8 @@
 ---
- - name: Attach volume {{volume_name}}
+ - name: Attach volume {{volume_name}} to processing-{{name}}
    os_server_volume:
      state: present
-     server: processing
+     server: processing-{{name}}
      volume: "{{volume_name}}"
    become: no
    delegate_to: localhost
@@ -21,10 +21,10 @@
  - name: Export zpool {{zpool}}
    command: zpool export {{zpool}} removes=/{{zpool}}
 
- - name: Unattach volume {{volume_name}}
+ - name: Unattach volume {{volume_name}} from processing-{{name}}
    os_server_volume:
      state: absent
-     server: processing
+     server: processing-{{name}}
      volume: "{{volume_name}}"
    become: no
    delegate_to: localhost
