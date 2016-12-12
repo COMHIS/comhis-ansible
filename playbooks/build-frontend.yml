@@ -16,8 +16,7 @@
     - name: Add frontend node to inventory
       add_host:
         name: frontend
-        groups:
-          - frontend
+        groups: frontend
         ansible_ssh_host: "{{ frontend_heat_stack.stack.outputs[0].output_value.addresses['project_2000230'][1].addr }}"
 
 - hosts: localhost
