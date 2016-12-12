@@ -1,0 +1,16 @@
+#find ./ -name '*.xml' | parallel -q -X grep -l -R '^    <documentType>Monograph</documentType>[a-z]' | parallel -q sed -i -e 's|^    <documentType>Monograph</documentType>|    <documentType>Monograph</documentType><|'
+#sed -i 's/14??920/140,920/' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00021/Monographs/1694200106.xml
+#sed -i '1s/^\xEF\xBB\xBF//' ECCOF0001/ECCOF0001-C00026/Monographs/1300900400.xml
+# 09:41:11.181 [ForkJoinPool-1-worker-27] ERROR ECCOXML2Text$ - An error has occured processing /pool/cdata/ecco1/ECCO_I/ECCO_1of2/HistAndGeo/0018300302/xml/0018300302.xml: java.lang.NumberFormatException: For input string: "114 6"
+#sed -i 's/pos="66,177,772"/pos="66,704,177,772"/' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00027/Monographs/1319400105.xml
+#sed -i 's|^          <wd pos="6?9,2217,910,2291">Leg-ion</wd>|          <wd pos="679,2217,910,2291">Leg-ion</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00026/Monographs/1703000400.xml
+#sed -i 's|^          <wd pos="1836,2136,2218,2ro98">thewhr~loleassembly</wd>|          <wd pos="1836,2136,2218,2198">thewhr~loleassembly</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00021/Monographs/1516000500.xml
+#sed -i 's|^          <wd pos="546,3?5?,627,3221">had</wd>|          <wd pos="546,3157,627,3221">had</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00027/Monographs/1560801200.xml
+#sed -i 's|^          <wd pos="192,1872¬423,1915">commandecd</wd>|          <wd pos="192,1872,423,1915">commandecd</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00021/Monographs/1624200102.xml
+#sed -i 's|^          <wd pos="2144,259/2168,297">a</wd>|          <wd pos="2144,259,2168,297">a</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00021/Monographs/1516100100.xml
+#sed -i 's|^          <wd pos="1283,460,136 0,545">anl</wd>|          <wd pos="1283,460,1360,545">anl</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00025/Monographs/1412200300.xml
+#sed -i 's|^          <wd pos="21?0,1926,2217,1979">thy</wd>|          <wd pos="2140,1926,2217,1979">thy</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00021/Monographs/1624100200.xml
+#sed -i 's|^          <wd pos="265,328,3?1,386">boy</wd>|          <wd pos="265,328,361,386">boy</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00026/Monographs/1301300202.xml
+#sed -i 's|^          <wd pos="1302,±068,1333,1129">I</wd>|          <wd pos="1302,1068,1333,1129">I</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00026/Monographs/1560000102.xml
+#sed -i 's|^          <wd pos="663,1202,743?12?5">Con</wd>|          <wd pos="663,1202,743,1255">Con</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00022/Monographs/1728800115.xml
+#sed -i 's|^          <wd pos="699,1382,752??426">un</wd>|          <wd pos="699,1382,752,1426">un</wd>|' /pool/cdata/ecco2/ECCO_II/ECCOF0001/ECCOF0001-C00022/Monographs/1728800115.xml
