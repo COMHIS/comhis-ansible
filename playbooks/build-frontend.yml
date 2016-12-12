@@ -2,12 +2,17 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-    - name: Build OpenStack environment and frontend using Heat
-      register: frontend_heat_stack
-      os_stack:
-        name: frontend
+    - name: Build frontend node
+      register: build_result
+      os_server:
         state: present
-        template: "files/heat-frontend.yml"
+        auto_ip: yes
+        name: frontend
+        flavor: standard.tiny
+        image: Ubuntu-16.04
+        key_name: comhis
+        security_groups: default, public
+        network: project_2000230
 
 - hosts: localhost
   gather_facts: no
@@ -17,22 +22,21 @@
       add_host:
         name: frontend
         groups: frontend
-        ansible_ssh_host: "{{ frontend_heat_stack.stack.outputs[0].output_value.addresses['project_2000230'][1].addr }}"
+        ansible_ssh_host: "{{ build_result.server.addresses['project_2000230'][1].addr }}"
 
 - hosts: localhost
   gather_facts: no
   connection: local
   tasks:
     - name: Generate inventory file
-      template: src=templates/node_inventory.j2 dest=../inventory/nodes
+      template: src=templates/node_inventory.j2 dest={{playbook_dir}}/../inventory/nodes
 
 - hosts: localhost
   gather_facts: no
   connection: local
   tasks:
     - name: Generate SSH config
-      template: src=templates/ssh.conf.j2 dest=../ssh.conf
-
+      template: src=templates/ssh.conf.j2 dest={{playbook_dir}}/../ssh.conf
 
 - hosts: frontend
   gather_facts: no

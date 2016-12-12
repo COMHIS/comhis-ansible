@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create public security group
+      os_security_group:
+        state: present
+        name: public
+        description: Allow public SSH and HTTP
+    - name: Add SSH rule
+      os_security_group_rule:
+        state: present
+        security_group: public
+        protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
+    - name: Add mosh rule
+      os_security_group_rule:
+        state: present
+        security_group: public
+        protocol: udp
+        port_range_min: 60000
+        port_range_max: 61000
+    - name: Add HTTP rule
+      os_security_group_rule:
+        state: present
+        security_group: public
+        protocol: tcp
+        port_range_min: 80
+        port_range_max: 80
+    - name: Add HTTPS rule
+      os_security_group_rule:
+        state: present
+        security_group: public
+        protocol: tcp
+        port_range_min: 443
+        port_range_max: 443

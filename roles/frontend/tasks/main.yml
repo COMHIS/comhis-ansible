@@ -8,4 +8,4 @@
 - name: Add Varnish configuration
   template: src=varnish.vcl dest=/etc/varnish/default.vcl
 - name: Reload varnish
-  systemd: daemon_reload=yes name=varnish state=restarted
+  service: name=varnish state=restarted
