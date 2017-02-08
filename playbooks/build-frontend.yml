@@ -8,6 +8,7 @@
         state: present
         auto_ip: yes
         name: frontend
+        meta: group=frontend
         flavor: standard.tiny
         image: Ubuntu-16.04
         key_name: comhis

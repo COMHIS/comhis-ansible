@@ -2,13 +2,14 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-    - name: Build processing node {{name}}
+    - name: Build internal node {{name}}
       register: build_result
       os_server:
         state: present
         auto_ip: no
-        name: processing-{{name}}
-        flavor: io.700GB
+        name: "{{name}}"
+        meta: group={{group}},groups=internal
+        flavor: "{{flavor}}"
         image: Ubuntu-16.04
         key_name: comhis
         security_groups: default
@@ -18,18 +19,11 @@
   gather_facts: no
   connection: local
   tasks:
-    - name: Add processing node to inventory
+    - name: Add internal node to inventory
       add_host:
-        name: processing-{{name}}
-        groups: processing
+        name: "{{name}}"
+        groups: "{{group}},internal"
         ansible_ssh_host: "{{ build_result.server.addresses['project_2000230'][0].addr }}"
-
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  tasks:
-    - name: Generate an inventory file
-      template: src=templates/node_inventory.j2 dest={{playbook_dir}}/../inventory/nodes
 
 - hosts: localhost
   gather_facts: no
@@ -38,14 +32,12 @@
     - name: Generate SSH config
       template: src=templates/ssh.conf.j2 dest={{playbook_dir}}/../ssh.conf
 
-- hosts: processing-{{name}}
+- hosts: "{{name}}"
   gather_facts: no
   tasks:
-    - name: Wait for the processing node to become accessible
+    - name: Wait for the node to become accessible
       wait_for:
         host: "{{ ansible_ssh_host }}"
         port: 22
         state: started
       delegate_to: frontend
-
-- include: configure-processing.yml

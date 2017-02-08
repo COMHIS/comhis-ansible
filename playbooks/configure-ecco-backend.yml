@@ -1,0 +1,6 @@
+- include: configure-backend name=backend-ecco
+
+- hosts: "backend-ecco"
+  become: yes
+  roles:
+   - { role: mount-volume-with-cache, volume_name: ECCOINDEX, zpool: eccoindexpool }

@@ -1,0 +1,5 @@
+---
+
+- include: build-internal.yml name=backend-ecco group=backend
+
+- include: configure-ecco-backend.yml

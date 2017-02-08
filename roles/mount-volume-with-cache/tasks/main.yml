@@ -1,0 +1,13 @@
+---
+ - name: Attach volume {{volume_name}} to {{name}}
+   os_server_volume:
+     state: present
+     server: {{name}}
+     volume: "{{volume_name}}"
+   become: no
+   delegate_to: localhost
+
+ - wait_for: path=/{{zpool}} state=present
+
+ - name: Add cache drive to {{zpool}}
+   command: zpool add {{zpool}} cache /dev/vdb

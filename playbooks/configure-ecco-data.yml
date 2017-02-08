@@ -1,5 +1,5 @@
 ---
-- hosts: processing-{{name}}
+- hosts: "{{name}}"
   become: yes
   roles:
     - { role: data-from-volume, volume_name: ECCO1, zpool: ecco1pool, dataset: ecco1, dzpath: pool/cdata/ecco1 }

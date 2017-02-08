@@ -1,0 +1,6 @@
+---
+- hosts: "{{name}}"
+  become: yes
+  roles:
+   - common
+   - backend

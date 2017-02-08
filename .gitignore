@@ -4,5 +4,4 @@
 *.idea
 roles/ansible-role-*
 credentials/
-inventory/
 ssh.conf

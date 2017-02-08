@@ -1,0 +1,6 @@
+---
+- name: Install java
+  apt: name=default-jdk state=latest
+
+- name: Install zfs
+  apt: name=zfsutils-linux state=latest
