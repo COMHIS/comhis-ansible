@@ -138,7 +138,7 @@ def get_host_groups_from_cloud(inventory):
             list_args['fail_on_cloud_config'] = \
                 inventory.extra_config['fail_on_errors']
     else:
-        use_hostnames = False
+        use_hostnames = True
 
     for server in inventory.list_hosts(**list_args):
 
