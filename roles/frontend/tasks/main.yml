@@ -6,6 +6,6 @@
 - name: Configure Varnish startup script
   copy: src=varnish-init.conf dest=/etc/systemd/system/varnish.service.d/customexec.conf
 - name: Add Varnish configuration
-  template: src=varnish.vcl dest=/etc/varnish/default.vcl
+  template: src=varnish.vcl.j2 dest=/etc/varnish/default.vcl
 - name: Reload varnish
   service: name=varnish state=restarted

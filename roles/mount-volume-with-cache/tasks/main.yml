@@ -2,12 +2,27 @@
  - name: Attach volume {{volume_name}} to {{name}}
    os_server_volume:
      state: present
-     server: {{name}}
+     server: "{{name}}"
      volume: "{{volume_name}}"
    become: no
    delegate_to: localhost
 
- - wait_for: path=/{{zpool}} state=present
+ - name: Wait for drive to attach
+   wait_for: path=/dev/vdc state=present
+
+ - name: Check if zpool {{zpool}} exists
+   stat: path=/{{zpool}}
+   register: stat_result
+
+ - name: Import zpool {{zpool}}
+   command: zpool import {{zpool}}
+   when: stat_result.stat.exists == False
+
+ - name: Remove potential cache drive on {{zpool}}
+   command: zpool remove {{zpool}} /dev/vdb
+   register: cache_check
+   ignore_errors: true
 
  - name: Add cache drive to {{zpool}}
-   command: zpool add {{zpool}} cache /dev/vdb
+   command: zpool add -f {{zpool}} cache /dev/vdb
+   when: cache_check|failed

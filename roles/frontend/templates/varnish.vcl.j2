@@ -1,0 +1,65 @@
+vcl 4.0;
+
+backend default {
+    .host = "127.0.0.1";
+    .port = "8080";
+}
+
+{% for node in groups['octavo-api'] %}
+backend {{node}} {
+    .host = "{{ hostvars[node]['ansible_ssh_host']}}";
+    .port = "9000";
+    .first_byte_timeout = 30 m;
+}
+{% endfor %}
+
+sub vcl_recv {
+    # Happens before we check if we have this in cache already.
+    #
+    # Typically you clean up the request here, removing cookies you don't need,
+    # rewriting the request, etc.
+
+    # Google Analytics cookies don't inhibit caching
+    if (req.http.Cookie) {
+        set req.http.Cookie = regsuball(req.http.Cookie, "(^|; ) *__utm.=[^;]+;? *", "\1"); # Remove Google Analytics Cookies
+
+        if (req.http.Cookie == "") {
+            unset req.http.Cookie;
+        }
+    }
+    if (false) {
+{% if 'octavo-api' in groups %}
+{% for node in groups['octavo-api'] %}
+    } else if (req.url ~"^/{{node}}/") {
+      set req.backend_hint = {{node}};
+{%endfor%}
+{%endif%}
+    }
+}
+
+sub vcl_backend_response {
+    # Happens after we have read the response headers from the backend.
+    #
+    # Here you clean the response headers, removing silly Set-Cookie headers
+    # and other mistakes your backend does.
+
+    set beresp.do_stream = true;
+    if (!bereq.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$") {
+        set beresp.do_gzip = true;
+    }
+}
+
+sub vcl_deliver {
+    # Happens when we have all the pieces we need, and are about to send the
+    # response to the client.
+    #
+    # You can do accounting or modifying the final object here.
+
+    if (obj.hits > 0) {
+        set resp.http.X-Cache-Hits = obj.hits;
+        set resp.http.X-Cache = "HIT";
+    } else {
+        set resp.http.X-Cache = "MISS";
+    }
+
+}

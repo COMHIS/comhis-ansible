@@ -6,13 +6,11 @@ Host *
   IdentityFile credentials/comhis.pem
   User cloud-user
 
-{% for node in groups['frontend'] %}
-Host {{ node }}
-  HostName {{ hostvars[node]['ansible_ssh_host']}}
-{% endfor %}
+Host frontend
+  HostName {{ hostvars['frontend']['ansible_ssh_host']}}
 
 {% for node in groups['all'] %}
-{% if (node not in groups['frontend']) %}
+{% if (node != 'frontend') %}
 Host {{ node }}
   HostName {{ hostvars[node]['ansible_ssh_host']}}
   ProxyJump frontend

@@ -57,4 +57,8 @@
     - name: Add SSH public key to node
       copy: src=../../credentials/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
 
-- include: configure-frontend.yml
+- hosts: frontend
+  become: yes
+  roles:
+   - common
+   - frontend

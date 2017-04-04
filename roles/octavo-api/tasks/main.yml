@@ -1,0 +1,21 @@
+---
+- name: Install java
+  apt: name=default-jdk state=latest
+
+- name: Ensure /usr/share/octavo/conf exists
+  file: path=/usr/share/octavo/conf state=directory
+
+- name: Configure octavo application.conf
+  template: src=templates/application.conf.j2 dest=/usr/share/octavo/conf/application.conf
+
+- name: Configure octavo application.ini
+  template: src=templates/application.ini.j2 dest=/usr/share/octavo/conf/application.ini
+
+- name: Install octavo-api
+  apt: deb=https://github.com/jiemakel/octavo/releases/download/v1.1.1/octavo_1.1.1_all.deb
+
+- name: Remove temporary directory for octavo
+  file: path=/usr/share/octavo/tmp state=absent
+
+- name: Create temporary directory for octavo
+  file: path=/usr/share/octavo/tmp state=directory owner=octavo

@@ -1,8 +1,0 @@
-{% for group in groups %}
-[{{group}}]
-{% for node in groups[group] %}
-{% if ('ansible_ssh_host' in hostvars[node]) %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }}
-{% endif %}
-{% endfor %}
-{% endfor %}

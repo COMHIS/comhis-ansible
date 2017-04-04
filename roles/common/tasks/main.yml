@@ -1,6 +1,8 @@
 ---
 - name: dist-upgrade
   apt: upgrade=dist update_cache=yes
+- name: Install zfs
+  apt: name=zfsutils-linux state=latest
 - name: Install mosh
   apt: name=mosh state=latest
 - name: Install parallel

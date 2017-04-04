@@ -1,0 +1,8 @@
+---
+- include: build-internal.yml name=processing group=processing flavor=io.700GB  
+
+- hosts: processing
+  become: yes
+  roles:
+   - common
+   - processing

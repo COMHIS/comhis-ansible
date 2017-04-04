@@ -1,9 +1,0 @@
----
-- hosts: frontend
-  gather_facts: yes
-
-- hosts: processing
-  become: yes
-  roles:
-   - common
-   - processing
