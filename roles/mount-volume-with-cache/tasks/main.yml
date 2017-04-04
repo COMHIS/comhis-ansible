@@ -20,6 +20,7 @@
 
  - name: Remove potential cache drive on {{zpool}}
    command: zpool remove {{zpool}} {{cache_dev}}
+   ignore_errors: true
 
  - name: Add cache drive to {{zpool}}
    command: zpool add -f {{zpool}} cache {{cache_dev}}
