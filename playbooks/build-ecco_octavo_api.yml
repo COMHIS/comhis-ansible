@@ -1,13 +1,14 @@
 ---
 
-- include: build-internal.yml name=ecco_octavo_api group=octavo-api flavor=io.700GB
+- include: build-internal.yml name=ecco_octavo_api group=octavo-api flavor=io.340GB
 
 - hosts: ecco_octavo_api
   become: yes
   roles:
    - common
-   - { role: mount-volume-with-cache, name: ecco_octavo_api, volume_name: ECCOINDEX, zpool: eccoindexpool }
-   - { role: octavo-api, octavo_index_path: /eccoindexpool/eccoindex, octavo_java_args: -Xmx60G }
+   - { role: swap_on_local_disk, swap_size: 20GiB }
+   - { role: mount-volume-with-cache, name: ecco_octavo_api, volume_name: ECCOINDEX, zpool: eccoindexpool, cache_dev: /dev/vdb2 }
+   - { role: octavo-api, octavo_index_path: /eccoindexpool/eccoindex, octavo_java_args: -Xmx50G }
 
 - hosts: frontend
   become: yes

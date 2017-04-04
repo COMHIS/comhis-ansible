@@ -15,5 +15,7 @@
   apt: name=htop state=latest
 - name: Install atop
   apt: name=atop state=latest
+- name: Install iotop
+  apt: name=iotop state=latest
 - name: Install whowatch
   apt: name=whowatch state=latest

@@ -1,0 +1,19 @@
+---
+- name: Ensure swap partition is not in use
+  command: swapoff /dev/vdb1
+  ignore_errors: true
+
+- name: Create partition label
+  command: parted -s /dev/vdb mklabel gpt
+
+- name: Create swap partition on local disk
+  command: parted /dev/vdb mkpart primary linux-swap 2048s {{swap_size}}
+
+- name: Create rest partition
+  command: parted /dev/vdb mkpart primary zfs {{swap_size}} 100%
+
+- name: Create swap on local disk
+  command: mkswap /dev/vdb1
+
+- name: Enable swap on local disk
+  command: swapon /dev/vdb1

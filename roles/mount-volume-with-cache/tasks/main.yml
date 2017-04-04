@@ -19,10 +19,7 @@
    when: stat_result.stat.exists == False
 
  - name: Remove potential cache drive on {{zpool}}
-   command: zpool remove {{zpool}} /dev/vdb
-   register: cache_check
-   ignore_errors: true
+   command: zpool remove {{zpool}} {{cache_dev}}
 
  - name: Add cache drive to {{zpool}}
-   command: zpool add -f {{zpool}} cache /dev/vdb
-   when: cache_check|failed
+   command: zpool add -f {{zpool}} cache {{cache_dev}}

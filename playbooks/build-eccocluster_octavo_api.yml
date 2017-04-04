@@ -6,7 +6,7 @@
   become: yes
   roles:
    - common
-   - { role: mount-volume-with-cache, name: eccocluster_octavo_api, volume_name: ECCOCLUSTERINDEX, zpool: eccoclusterindexpool }
+   - { role: mount-volume-with-cache, name: eccocluster_octavo_api, volume_name: ECCOCLUSTERINDEX, zpool: eccoclusterindexpool, cache_dev: /dev/vdb }
    - { role: octavo-api, octavo_index_path: /eccoclusterindexpool/eccoclusterindex, octavo_java_args: -Xmx6G }
 
 - hosts: frontend
