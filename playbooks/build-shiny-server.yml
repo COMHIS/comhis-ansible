@@ -1,0 +1,14 @@
+---
+
+- include: build-internal.yml name=shiny_server group=shiny-server flavor=standard.tiny
+
+- hosts: shiny_server
+  become: yes
+  roles:
+   - common
+   - shiny-server
+
+- hosts: frontend
+  become: yes
+  roles:
+   - frontend
