@@ -25,12 +25,7 @@
         groups: "{{group}},internal"
         ansible_ssh_host: "{{ build_result.server.addresses['project_2000230'][0].addr }}"
 
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  tasks:
-    - name: Generate SSH config
-      template: src=templates/ssh.conf.j2 dest={{playbook_dir}}/../ssh.conf
+- include: generate-ssh-config.yml
 
 - hosts: "{{name}}"
   gather_facts: no

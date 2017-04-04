@@ -32,12 +32,7 @@
     - name: Generate inventory file
       template: src=templates/node_inventory.j2 dest={{playbook_dir}}/../inventory/nodes
 
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  tasks:
-    - name: Generate SSH config
-      template: src=templates/ssh.conf.j2 dest={{playbook_dir}}/../ssh.conf
+- include: generate-ssh-config.yml
 
 - hosts: frontend
   gather_facts: no
