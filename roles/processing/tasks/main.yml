@@ -5,6 +5,15 @@
 - name: Install pixz
   apt: name=pixz state=latest
 
+- name: Install jq
+  apt: name=jq state=latest
+
+- name: Install xml2
+  apt: name=xml2 state=latest
+
+- name: Install xmlstarlet
+  apt: name=xmlstarlet state=latest
+
 - name: Add iRODS apt repository
   apt_repository:
     repo: 'deb https://packages.irods.org/apt/ trusty main'
