@@ -14,6 +14,9 @@
 - name: Install xmlstarlet
   apt: name=xmlstarlet state=latest
 
+- name: Install apcalc
+  apt: name=apcalc state=latest
+
 - name: Add iRODS apt repository
   apt_repository:
     repo: 'deb https://packages.irods.org/apt/ trusty main'
