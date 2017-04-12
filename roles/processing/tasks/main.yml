@@ -5,6 +5,9 @@
 - name: Install pixz
   apt: name=pixz state=latest
 
+- name: Install mmv
+  apt: name=mmv state=latest
+
 - name: Install jq
   apt: name=jq state=latest
 
