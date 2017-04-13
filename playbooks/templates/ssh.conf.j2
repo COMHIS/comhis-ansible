@@ -1,8 +1,7 @@
 Host *
   StrictHostKeyChecking no
-  ControlMaster auto
-  ControlPath ~/.ssh/%r@%h:%p
-  ControlPersist 10m
+  ForwardAgent yes
+  ForwardX11 yes
   IdentityFile credentials/comhis.pem
   User cloud-user
 
