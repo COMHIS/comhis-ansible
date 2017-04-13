@@ -1,0 +1,17 @@
+---
+- name: Allow colord in polkit
+  copy: src=polkit-colord.conf dest=/etc/polkit-1/localauthority.conf.d/02-allow.colord.conf
+
+- name: Install ubuntu-gnome-desktop
+  apt: name=ubuntu-gnome-desktop state=latest
+
+- name: Install nomachine
+  apt: deb=http://download.nomachine.com/download/5.2/Linux/nomachine_5.2.21_1_amd64.deb
+
+- name: Make sure nomachine configuration directory exists
+  become: no
+  file: path=/home/cloud-user/.nx/config state=directory
+
+- name: Install private key for nomachine
+  become: no
+  copy: src=comhis.pub dest=/home/cloud-user/.nx/config/authorized.crt
