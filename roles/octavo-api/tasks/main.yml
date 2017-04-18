@@ -12,7 +12,7 @@
   template: src=templates/application.ini.j2 dest=/usr/share/octavo/conf/application.ini
 
 - name: Install octavo-api
-  apt: deb=https://github.com/jiemakel/octavo/releases/download/v1.1.1/octavo_1.1.1_all.deb
+  apt: deb=https://github.com/jiemakel/octavo/releases/download/v1.1.2/octavo_1.1.2_all.deb
 
 - name: Remove temporary directory for octavo
   file: path=/usr/share/octavo/tmp state=absent
