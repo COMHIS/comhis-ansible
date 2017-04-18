@@ -1,0 +1,16 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Delete node {{name}}
+      os_server:
+        state: absent
+        name: "{{name}}"
+
+- hosts: frontend
+  become: yes
+  roles:
+   - frontend
+
+- include: generate-ssh-config.yml
