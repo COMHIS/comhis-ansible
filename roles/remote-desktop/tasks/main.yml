@@ -5,6 +5,9 @@
 - name: Install ubuntu-gnome-desktop
   apt: name=ubuntu-gnome-desktop state=latest
 
+- name: Install Finnish language support
+  apt: name=language-pack-gnome-fi state=latest
+
 - name: Install nomachine
   apt: deb=http://download.nomachine.com/download/5.2/Linux/nomachine_5.2.21_1_amd64.deb
 

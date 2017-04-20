@@ -2,6 +2,7 @@
 *.swo
 *.retry
 *.idea
-roles/ansible-role-*
+roles/ansible-*
+roles/gronke.dhparam
 credentials/
 ssh.conf

@@ -1,5 +1,12 @@
 vcl 4.0;
 
+import std;
+
+backend acmetool {
+    .host = "127.0.0.1";
+    .port = "402";
+}
+
 backend default {
     .host = "127.0.0.1";
     .port = "8080";
@@ -14,6 +21,11 @@ backend {{node}} {
 {% endfor %}
 
 sub vcl_recv {
+
+    if (std.port(local.ip) == 80) {
+      set req.http.x-redir = "https://" + req.http.host + req.url;
+      return(synth(850, "Moved permanently"));
+    }
     # Happens before we check if we have this in cache already.
     #
     # Typically you clean up the request here, removing cookies you don't need,
@@ -27,7 +39,9 @@ sub vcl_recv {
             unset req.http.Cookie;
         }
     }
-    if (false) {
+    if (req.url ~ "^/.well-known/acme-challenge/") {
+      set req.backend_hint = acmetool;
+      return(pass);
 {% if 'octavo-api' in groups %}
 {% for node in groups['octavo-api'] %}
     } else if (req.url ~"^/{{node}}/") {
@@ -54,6 +68,7 @@ sub vcl_deliver {
     # response to the client.
     #
     # You can do accounting or modifying the final object here.
+    # set resp.http.Strict-Transport-Security = "max-age=31536000; includeSubDomains";
 
     if (obj.hits > 0) {
         set resp.http.X-Cache-Hits = obj.hits;
@@ -62,4 +77,12 @@ sub vcl_deliver {
         set resp.http.X-Cache = "MISS";
     }
 
+}
+
+sub vcl_synth {
+    if (resp.status == 850) {
+        set resp.http.Location = req.http.x-redir;
+        set resp.status = 301;
+        return (deliver);
+    }
 }

@@ -1,4 +1,6 @@
 ---
+- name: Set default keyboard language to FI
+  copy: src=keyboard.conf dest=/etc/default/keyboard
 - name: dist-upgrade
   apt: upgrade=dist update_cache=yes
 - name: Install zfs

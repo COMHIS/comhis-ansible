@@ -13,5 +13,6 @@ Host frontend
 Host {{ node }}
   HostName {{ hostvars[node]['ansible_ssh_host']}}
   ProxyJump frontend
+
 {% endif %}
 {% endfor %}
