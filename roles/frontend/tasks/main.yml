@@ -14,11 +14,12 @@
   service: name=varnish state=restarted
 
 - name: Install Hitch
-  apt: name=hitch state=latest
+  apt: deb=https://launchpad.net/ubuntu/+source/hitch/1.4.4-1/+build/11906041/+files/hitch_1.4.4-1_amd64.deb
+- name: Make sure /var/lib/hitch exists and is owned by the correct user
+  file: path=/var/lib/hitch state=directory owner=_hitch
 - name: Add Hitch configuration
   template: src=hitch.conf.j2 dest=/etc/hitch/hitch.conf
 - name: Reload Hitch
   service: name=hitch state=restarted
-
 - name: Set Hitch as the service ACME reloads
   copy: src=acme-reload.conf dest=/etc/default/acme-reload

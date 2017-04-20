@@ -50,5 +50,5 @@
   roles:
    - common
    - { role: gronke.dhparam, dhparam_size: 2048, dhparam_file: /var/lib/acme/conf/dhparams }
-   - { role: ansible-acmetool, acmetool_responses_method: proxy, acmetool_responses_email: eetu.makela@aalto.fi, acmetool_websrv: varnish, acmetool_responses_install_haproxy_script: true, acmetool_want: "{{lookup('dig', ansible_ssh_host+'/PTR')[:-1]}}" }
+   - { role: ansible-acmetool, acmetool_responses_method: proxy, acmetool_responses_email: eetu.makela@aalto.fi, acmetool_websrv: varnish, acmetool_responses_install_haproxy_script: "true", acmetool_want: "{{lookup('dig', ansible_ssh_host+'/PTR')[:-1]}}" }
    - frontend

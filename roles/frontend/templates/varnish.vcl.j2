@@ -22,6 +22,11 @@ backend {{node}} {
 
 sub vcl_recv {
 
+    if (req.url ~ "^/.well-known/acme-challenge/") {
+      set req.backend_hint = acmetool;
+      return(pass);
+    }
+
     if (std.port(local.ip) == 80) {
       set req.http.x-redir = "https://" + req.http.host + req.url;
       return(synth(850, "Moved permanently"));
@@ -39,9 +44,7 @@ sub vcl_recv {
             unset req.http.Cookie;
         }
     }
-    if (req.url ~ "^/.well-known/acme-challenge/") {
-      set req.backend_hint = acmetool;
-      return(pass);
+    if (false) {
 {% if 'octavo-api' in groups %}
 {% for node in groups['octavo-api'] %}
     } else if (req.url ~"^/{{node}}/") {
