@@ -12,7 +12,7 @@ Host frontend
 {% if (node != 'frontend') %}
 Host {{ node }}
   HostName {{ hostvars[node]['ansible_ssh_host']}}
-  ProxyJump frontend
+  ProxyCommand=ssh -F ssh.conf -W %h:%p frontend
 
 {% endif %}
 {% endfor %}

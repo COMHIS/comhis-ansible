@@ -1,2 +1,2 @@
 ---
-ansible_ssh_common_args: "-o 'ProxyJump={{ hostvars['frontend']['ansible_ssh_host'] }}'"
+ansible_ssh_common_args: "-o ProxyCommand=\"ssh -F ssh.conf.ansible -W %h:%p {{ hostvars['frontend']['ansible_ssh_host'] }}\""
