@@ -53,7 +53,7 @@ sub vcl_recv {
         }
     }
 {% if 'shiny_server' in hostvars %}
-   if (req.url ~ "^/shiny/") {
+   if (req.url ~ "^/shiny") {
       set req.url = regsub(req.url, "^/shiny", "");
       set req.backend_hint = shiny_server;
 {% else %}
@@ -61,7 +61,7 @@ sub vcl_recv {
 {% endif %}
 {% if 'octavo-api' in groups %}
 {% for node in groups['octavo-api'] %}
-    } else if (req.url ~"^/{{node}}/") {
+    } else if (req.url ~"^/{{node}}") {
       set req.backend_hint = {{node}};
 {%endfor%}
 {%endif%}
