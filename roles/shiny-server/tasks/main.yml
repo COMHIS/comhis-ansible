@@ -2,6 +2,9 @@
 - name: Install R
   apt: name=r-base state=latest
 
+- name: Install R dev for installing packages
+  apt: name=r-base-dev state=latest
+
 - name: Install shiny and dependencies in R
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "if (! ('{{item}}' %in% installed.packages()[,'Package'])) install.packages(pkgs='{{item}}', repos=c('https://cran.rstudio.com/'))"
   with_items:

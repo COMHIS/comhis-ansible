@@ -6,3 +6,4 @@ roles/ansible-*
 roles/gronke.dhparam
 credentials/
 ssh.conf
+venv
