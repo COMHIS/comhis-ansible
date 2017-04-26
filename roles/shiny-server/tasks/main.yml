@@ -2,10 +2,11 @@
 - name: Install R
   apt: name=r-base state=latest
 
-- name: Install shiny in R
+- name: Install shiny and dependencies in R
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "if (! ('{{item}}' %in% installed.packages()[,'Package'])) install.packages(pkgs='{{item}}', repos=c('https://cran.rstudio.com/'))"
   with_items:
     - shiny
+    - rmarkdown
 
 - name: Install shiny-server
   apt: deb=https://download3.rstudio.org/ubuntu-12.04/x86_64/shiny-server-1.5.3.838-amd64.deb
