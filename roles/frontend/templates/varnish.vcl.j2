@@ -12,6 +12,14 @@ backend default {
     .port = "8080";
 }
 
+{% if 'shiny_server' in hostvars %}
+backend shiny_server {
+  .host = "{{ hostvars['shiny_server']['ansible_ssh_host']}}";
+  .port = "3838";
+  .first_byte_timeout = 30 m;
+}
+{% endif %}
+
 {% for node in groups['octavo-api'] %}
 backend {{node}} {
     .host = "{{ hostvars[node]['ansible_ssh_host']}}";
@@ -44,7 +52,13 @@ sub vcl_recv {
             unset req.http.Cookie;
         }
     }
-    if (false) {
+{% if 'shiny_server' in hostvars %}
+   if (req.url ~ "^/shiny/") {
+      set req.url = regsub(req.url, "^/shiny", "/shiny_server");
+      set req.backend_hint = shiny_server;
+{% else %}
+   if (false) {
+{% endif %}
 {% if 'octavo-api' in groups %}
 {% for node in groups['octavo-api'] %}
     } else if (req.url ~"^/{{node}}/") {
