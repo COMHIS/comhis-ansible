@@ -37,7 +37,7 @@ sub vcl_recv {
 
     if (std.port(local.ip) == 80) {
       set req.http.x-redir = "https://" + req.http.host + req.url;
-      return(synth(850, "Moved permanently"));
+      return(synth(803, "Moved permanently"));
     }
     # Happens before we check if we have this in cache already.
     #
@@ -54,7 +54,7 @@ sub vcl_recv {
     }
 {% if 'shiny_server' in hostvars %}
    if (req.url ~ "^/shiny/") {
-      set req.url = regsub(req.url, "^/shiny", "/shiny_server");
+      set req.url = regsub(req.url, "^/shiny", "");
       set req.backend_hint = shiny_server;
 {% else %}
    if (false) {
@@ -65,12 +65,18 @@ sub vcl_recv {
       set req.backend_hint = {{node}};
 {%endfor%}
 {%endif%}
+    } else {
+      set req.backend_hint = default;
+    }
+
+    if (req.backend_hint == default) {
+      return(synth(804, "Not found"));
     }
 
     if (req.http.Upgrade ~ "(?i)websocket") {
         return (pipe);
     }
-    
+
 }
 
 sub vcl_pipe {
@@ -108,9 +114,13 @@ sub vcl_deliver {
 }
 
 sub vcl_synth {
-    if (resp.status == 850) {
+    if (resp.status == 801) {
         set resp.http.Location = req.http.x-redir;
         set resp.status = 301;
+        return (deliver);
+    }
+    if (resp.status == 804) {
+        set resp.status = 404;
         return (deliver);
     }
 }
