@@ -1,0 +1,9 @@
+---
+- name: Clone ECCO Shinyapps public parts from github
+  git:
+    repo: 'https://github.com/COMHIS/ecco-shinyapps.git'
+    dest: /srv/shiny-server/ecco-apps
+    version: v1.0
+
+- name: Restart shiny-server
+  service: name=shiny-server state=restarted

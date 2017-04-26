@@ -19,3 +19,9 @@
 
 - name: Copy basic config file for shiny-server
   copy: src=shiny-server.conf dest=/etc/shiny-server/shiny-server.conf
+
+- name: Install demo shiny apps
+  shell: yes | /opt/shiny-server/bin/deploy-example default
+
+- name: Restart shiny-server
+  service: name=shiny-server state=restarted

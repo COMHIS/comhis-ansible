@@ -7,6 +7,7 @@
   roles:
    - common
    - shiny-server
+   - shiny-app-ecco
 
 - hosts: frontend
   become: yes
