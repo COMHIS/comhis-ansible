@@ -11,6 +11,8 @@
   apt: name=parallel state=latest
 - name: Install openstack tools
   apt: name=python3-openstackclient state=latest
+- name: Install common openstack credentials to .profile
+  copy: src=profile dest=/home/cloud-user/.profile owner=cloud-user
 - name: Install nmon
   apt: name=nmon state=latest
 - name: Install htop
