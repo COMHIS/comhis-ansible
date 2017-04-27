@@ -2,7 +2,7 @@ Host *
   StrictHostKeyChecking no
   ForwardAgent yes
   ForwardX11 yes
-  IdentityFile credentials/comhis.pem
+  IdentityFile {{playbook_dir}}/../credentials/comhis.pem
   User cloud-user
 
 Host frontend
@@ -12,7 +12,7 @@ Host frontend
 {% if (node != 'frontend') %}
 Host {{ node }}
   HostName {{ hostvars[node]['ansible_ssh_host']}}
-  ProxyCommand=ssh -F ssh.conf -W %h:%p frontend
+  ProxyCommand=ssh -F {{playbook_dir}}/../ssh.conf -W %h:%p frontend
 
 {% endif %}
 {% endfor %}
