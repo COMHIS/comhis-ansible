@@ -44,6 +44,11 @@
     - jsonlite
     - stringi
     - roxygen2 # apt dependency libxml2-dev
+    - babynames # needed by bibliographica
+    - data.table # needed by bibliographica
+
+- name: Install R packages not in CRAN with devtools
+  command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "library('devtools'); install_github('ropensci/genderdata')" # needed by bibliographica
 
 - name: Clone bibliographica from github
   git:
