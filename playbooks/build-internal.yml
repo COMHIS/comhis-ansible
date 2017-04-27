@@ -37,10 +37,10 @@
         state: started
       delegate_to: frontend
 
-  - hosts: "{{name}}"
-    gather_facts: no
-    tasks:
-      - name: Add SSH private key to node
-        copy: src=../credentials/comhis.pem dest=/home/cloud-user/.ssh/id_rsa mode=0600
-      - name: Add SSH public key to node
-        copy: src=../credentials/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
+- hosts: "{{name}}"
+  gather_facts: no
+  tasks:
+    - name: Add SSH private key to node
+      copy: src=../credentials/comhis.pem dest=/home/cloud-user/.ssh/id_rsa mode=0600
+    - name: Add SSH public key to node
+      copy: src=../credentials/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
