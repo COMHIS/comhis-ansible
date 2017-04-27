@@ -12,8 +12,8 @@
     version: v1.0
     accept_hostkey: yes
 
-- name: Copy data to location accessible to shiny-server
-  shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps
+# - name: Copy data to location accessible to shiny-server
+#   shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps
 
 - name: Install required apt packages- libssl-dev
   apt: name=libssl-dev state=latest
