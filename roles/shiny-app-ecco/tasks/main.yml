@@ -13,7 +13,7 @@
     accept_hostkey: yes
 
 - name: Copy data to location accessible to shiny shiny-server
-  shell: scp /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps/data -r
+  shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps/data
 
 - name: Restart shiny-server
   service: name=shiny-server state=restarted

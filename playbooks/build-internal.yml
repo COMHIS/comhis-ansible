@@ -43,8 +43,10 @@
     - name: Add SSH private key to cloud-user
       copy: src=../credentials/comhis.pem dest=/home/cloud-user/.ssh/id_rsa mode=0600
     - name: Add SSH public key to cloud-user
-      copy: src=roles/remote-desktop/files/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
+      copy: src=../roles/remote-desktop/files/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
     - name: Add SSH private key to root
       copy: src=../credentials/comhis.pem dest=/root/.ssh/id_rsa mode=0600
+      become: true
     - name: Add SSH public key to root
-      copy: src=roles/remote-desktop/files/comhis.pub dest=/root/.ssh/id_rsa.pub
+      copy: src=../roles/remote-desktop/files/comhis.pub dest=/root/.ssh/id_rsa.pub
+      become: true
