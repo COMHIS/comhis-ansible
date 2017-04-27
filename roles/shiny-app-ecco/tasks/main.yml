@@ -3,7 +3,7 @@
   git:
     repo: 'https://github.com/COMHIS/ecco-shinyapps.git'
     dest: /srv/shiny-server/ecco-apps
-    version: v1.0
+    version: v1.1
 
 - name: Clone ECCO Shinyapps private data from version.aalto.fi
   git:
@@ -21,13 +21,16 @@
 - name: Install required apt packages- libcurl4-gnutls-dev
   apt: name=libcurl4-gnutls-dev state=latest
 
+- name: Install required apt packages- libcurl4-gnutls-dev
+  apt: name=libxml2-dev state=latest
+
 - name: Install dependencies in R
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', repos=c('https://cran.rstudio.com/')); print('Added'); } else { print('Already installed'); }"
   register: r_result
   failed_when: "r_result.rc != 0 or 'had non-zero exit status' in r_result.stderr"
   changed_when: "'Added' in r_result.stdout"
   with_items:
-    - devtools # apt dependency libssl
+    - devtools # apt dependency libssl-dev
     - magrittr
     - reshape2
     - gridExtra
@@ -37,9 +40,10 @@
     - ggplot2
     - sorvi
     - tools
-    - RCurl # apt dependency libcurl
+    - RCurl # apt dependency libcurl4-gnutls-dev
     - jsonlite
     - stringi
+    - roxygen2 # apt dependency libxml2-dev
 
 - name: Clone bibliographica from github
   git:
