@@ -12,8 +12,46 @@
     version: v1.0
     accept_hostkey: yes
 
-- name: Copy data to location accessible to shiny shiny-server
-  shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps/data
+- name: Copy data to location accessible to shiny-server
+  shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps
+
+- name: Install required apt packages- libssl-dev
+  apt: name=libssl-dev state=latest
+
+- name: Install required apt packages- libcurl4-gnutls-dev
+  apt: name=libcurl4-gnutls-dev state=latest
+
+- name: Install dependencies in R
+  command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) { install.packages(pkgs='{{ item }}', repos=c('https://cran.rstudio.com/')); print('Added'); } else { print('Already installed'); }"
+  register: r_result
+  failed_when: "r_result.rc != 0 or 'had non-zero exit status' in r_result.stderr"
+  changed_when: "'Added' in r_result.stdout"
+  with_items:
+    - devtools # apt dependency libssl
+    - magrittr
+    - reshape2
+    - gridExtra
+    - knitr
+    - dplyr
+    - tidyr
+    - ggplot2
+    - sorvi
+    - tools
+    - RCurl # apt dependency libcurl
+    - jsonlite
+    - stringi
+
+- name: Clone bibliographica from github
+  git:
+    repo: 'https://github.com/rOpenGov/bibliographica.git'
+    dest: /srv/shiny-server/ecco-apps/bibliographica
+    version: v1.0-ecco-shinyapps
+
+- name: Clone estc from github
+  git:
+    repo: 'https://github.com/rOpenGov/estc.git'
+    dest: /srv/shiny-server/ecco-apps/estc
+    version: v1.0-ecco-shinyapps
 
 - name: Restart shiny-server
   service: name=shiny-server state=restarted
