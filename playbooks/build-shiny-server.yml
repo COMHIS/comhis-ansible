@@ -1,6 +1,6 @@
 ---
 
-- include: build-internal.yml name=shiny_server group=shiny-server flavor=standard.tiny
+- include: build-internal.yml name=shiny_server group=shiny-server flavor=standard.small
 
 - hosts: shiny_server
   become: yes
