@@ -40,7 +40,11 @@
 - hosts: "{{name}}"
   gather_facts: no
   tasks:
-    - name: Add SSH private key to node
+    - name: Add SSH private key to cloud-user
       copy: src=../credentials/comhis.pem dest=/home/cloud-user/.ssh/id_rsa mode=0600
-    - name: Add SSH public key to node
-      copy: src=../credentials/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
+    - name: Add SSH public key to cloud-user
+      copy: src=roles/remote-desktop/files/comhis.pub dest=/home/cloud-user/.ssh/id_rsa.pub
+    - name: Add SSH private key to root
+      copy: src=../credentials/comhis.pem dest=/root/.ssh/id_rsa mode=0600
+    - name: Add SSH public key to root
+      copy: src=roles/remote-desktop/files/comhis.pub dest=/root/.ssh/id_rsa.pub
