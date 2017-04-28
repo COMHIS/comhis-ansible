@@ -1,13 +1,13 @@
 ---
 
-- include: build-internal.yml name=shiny_server group=shiny-server flavor=standard.large
+- include: build-internal.yml name=shiny_server group=shiny-server flavor=standard.medium
 
 - hosts: shiny_server
   become: yes
   roles:
    - common
+   - swap_on_file
    - shiny-server
-   # - { role: swap_on_local_disk, swap_size: 20GiB } # not available in standard flavor
    - shiny-app-ecco
 
 - hosts: frontend

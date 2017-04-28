@@ -1,0 +1,18 @@
+---
+- name: Create directory /var/cache/swap for swapfile
+  command: mkdir -v /var/cache/swap
+
+- name: Create swapfile
+  command: dd if=/dev/zero of=/var/cache/swap/swapfile bs=1K count=10M
+
+- name: Adjust permissions on swapfile
+  command: chmod 600 /var/cache/swap/swapfile
+
+- name: Make swapfile into actual swapfile
+  command: mkswap /var/cache/swap/swapfile
+
+- name: Enable swapping
+  command: swapon /var/cache/swap/swapfile
+
+- name: Add swapfile to fstab
+  command: echo "/var/cache/swap/swapfile none swap sw 0 0" | tee -a /etc/fstab
