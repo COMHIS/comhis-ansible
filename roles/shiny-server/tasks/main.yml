@@ -1,4 +1,14 @@
 ---
+- name: Add CRAN R apt key
+  apt_key: 
+    keyserver: keyserver.ubuntu.com
+    id: E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+- name: Add CRAN R apt repository
+  apt_repository:
+    repo: deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/
+    state: present
+
 - name: Install R
   apt: name=r-base state=latest
 

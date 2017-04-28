@@ -3,17 +3,17 @@
   git:
     repo: 'https://github.com/COMHIS/ecco-shinyapps.git'
     dest: /srv/shiny-server/ecco-apps
-    version: v1.1
+    version: v1.3
+
+- name: Make output directory writable for shiny
+  command: chown -R shiny /srv/shiny-server/ecco-apps/output
 
 - name: Clone ECCO Shinyapps private data from version.aalto.fi
   git:
     repo: 'git@version.aalto.fi:comhis/data-restricted.git'
     dest: /data/data-restricted
-    version: v1.0
+    version: v1.1
     accept_hostkey: yes
-
-# - name: Copy data to location accessible to shiny-server
-#   shell: scp -r /data/data-restricted/shiny-apps/ecco-estc/data /srv/shiny-server/ecco-apps
 
 - name: Install required apt packages- libssl-dev
   apt: name=libssl-dev state=latest
@@ -46,6 +46,10 @@
     - roxygen2 # apt dependency libxml2-dev
     - babynames # needed by bibliographica
     - data.table # needed by bibliographica
+    - gender # needed by bibliographica
+    - stringdist # needed by bibliographica
+    - tm # bibliographica - needs R 3.3.1
+    - testthat # needed by bibliographica
 
 - name: Install R packages not in CRAN with devtools
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "library('devtools'); install_github('ropensci/genderdata')" # needed by bibliographica
