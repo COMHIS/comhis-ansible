@@ -6,8 +6,8 @@
   become: yes
   roles:
    - common
-   - { role: mount-volume-with-cache, name: yle_octavo_api, volume_name: YLE, zpool: ylepool, cache_dev: /dev/vdb }
-   - { role: octavo-api, octavo_index_path: /ylepool/yleindex, octavo_java_args: -Xmx6G }
+   - { role: mount-volume-with-cache, name: yle_octavo_api, volume_name: YLEINDEX, zpool: yleindexpool, cache_dev: /dev/vdb }
+   - { role: octavo-api, octavo_index_path: /yleindexpool/yleindex, octavo_java_args: -Xmx6G }
 
 - hosts: frontend
   become: yes
