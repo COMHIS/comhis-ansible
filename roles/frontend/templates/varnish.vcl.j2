@@ -37,7 +37,7 @@ sub vcl_recv {
 
     if (std.port(local.ip) == 80) {
       set req.http.x-redir = "https://" + req.http.host + req.url;
-      return(synth(803, "Moved permanently"));
+      return(synth(801, "Moved permanently"));
     }
     # Happens before we check if we have this in cache already.
     #
