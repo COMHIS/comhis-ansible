@@ -23,3 +23,5 @@
   apt: name=iotop state=latest
 - name: Install whowatch
   apt: name=whowatch state=latest
+- name: Install fatrace
+  apt: name=fatrace state=latest
