@@ -16,7 +16,7 @@ backend default {
 backend shiny_server {
   .host = "{{ hostvars['shiny_server']['ansible_ssh_host']}}";
   .port = "3838";
-  .first_byte_timeout = 30 m;
+  .first_byte_timeout = 1y;
 }
 {% endif %}
 
@@ -24,7 +24,7 @@ backend shiny_server {
 backend {{node}} {
     .host = "{{ hostvars[node]['ansible_ssh_host']}}";
     .port = "9000";
-    .first_byte_timeout = 30 m;
+    .first_byte_timeout = 1y;
 }
 {% endfor %}
 
