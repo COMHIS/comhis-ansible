@@ -64,7 +64,7 @@
 
 - name: Clone estc from github
   git:
-    repo: 'https://github.com/rOpenGov/estc.git'
+    repo: 'https://github.com/COMHIS/estc.git'
     dest: /srv/shiny-server/ecco-apps/estc
     version: v1.0-ecco-shinyapps
 
